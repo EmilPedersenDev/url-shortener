@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import ApiError from './api-error';
+import { ApiError } from './errors';
 
 type AsyncRouteHandler = (req: Request, res: Response, next?: NextFunction) => Promise<Response | void>;
 export default (routeHandler: AsyncRouteHandler): ((req: Request, res: Response, next: NextFunction) => void) => {
