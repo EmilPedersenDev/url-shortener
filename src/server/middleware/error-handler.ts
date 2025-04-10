@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { NextFunction, Request, Response } from 'express';
-import ApiError from '../common/api-error';
+import { ApiError } from '../common/errors';
 
 class ErrorHandler {
   public static handleError(err: Error, req: Request, res: Response, next: NextFunction) {
