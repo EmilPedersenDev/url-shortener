@@ -1,9 +1,11 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
 import cors from 'cors';
 import urlRouter from './routes/url.route';
 import 'dotenv/config';
 import ErrorHandler from './middleware/error-handler';
 import path from 'node:path';
+import { rateLimit } from 'express-rate-limit';
+import { RATE_LIMIT_THRESHOLD } from './common/constants';
 
 const app = express();
 const port = process.env.PORT;
@@ -16,10 +18,18 @@ const corsOptions = {
     'Content-Type,Authorization,X-Amz-Date,X-Amz-Security-Token,X-Amz-Content-Sha256,X-Amz-Target,X-Api-Key,X-Amz-User-Agent,Host',
 };
 app.use(cors(corsOptions));
+const limiter = rateLimit({
+  windowMs: 60 * 1000,
+  limit: Number(process.env.RATE_LIMIT_THRESHOLD ?? RATE_LIMIT_THRESHOLD),
+  message: 'Too many requests, please try again later.',
+  standardHeaders: 'draft-8',
+  legacyHeaders: false,
+});
+app.use(limiter);
 app.use(express.static(path.join(__dirname, '..', 'client')));
 
 // Client routes
-app.get('/', (req, res) => {
+app.get('/', (_req, res) => {
   res.sendFile(path.join(__dirname, '..', 'client', 'index.html'));
 });
 
