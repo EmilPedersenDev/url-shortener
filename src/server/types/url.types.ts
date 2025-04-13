@@ -22,3 +22,7 @@ export interface UrlResponse {
 export interface OriginalUrlResponse {
   originalUrl: string;
 }
+
+export interface UrlKeyServiceResponse {
+  hash: string;
+}

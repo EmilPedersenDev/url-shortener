@@ -1,29 +1,43 @@
 import HttpStatus from 'http-status';
 import { ValidationError } from 'express-validator';
 
-export class ApiError extends Error {
-  public readonly statusCode: number;
-  constructor(errorMsg: string, statusCode: number = HttpStatus.INTERNAL_SERVER_ERROR) {
-    super(errorMsg);
+enum ErrorNames {
+  BaseError = 'BaseError',
+  ApiError = 'ApiError',
+  ApiValidationError = 'ApiValidationError',
+  NotFoundError = 'NotFoundError',
+}
+
+export class BaseError extends Error {
+  public name: string;
+  public statusCode: number;
+  constructor(
+    message: string = 'Internal server error.',
+    statusCode: number = HttpStatus.INTERNAL_SERVER_ERROR,
+    name: string = ErrorNames.BaseError,
+  ) {
+    super(message);
     this.statusCode = statusCode;
+    this.name = name;
   }
 }
 
-export class ApiValidationError extends Error {
+export class ApiError extends BaseError {
+  constructor(errorMsg: string, statusCode: number) {
+    super(errorMsg, statusCode, ErrorNames.ApiError);
+  }
+}
+
+export class ApiValidationError extends BaseError {
   public readonly errors: Array<ValidationError>;
-  public statusCode: number;
   constructor(errorMsg: string, errors?: Array<ValidationError>) {
-    super(errorMsg);
-    this.statusCode = HttpStatus.BAD_REQUEST;
+    super(errorMsg, HttpStatus.BAD_REQUEST, ErrorNames.ApiValidationError);
     this.errors = errors || [];
   }
 }
 
-export class NotFoundError extends Error {
-  private statusCode: number;
+export class NotFoundError extends BaseError {
   constructor(errorMsg: string = 'Not Found') {
-    super(errorMsg);
-    this.name = 'NotFoundError';
-    this.statusCode = HttpStatus.NOT_FOUND;
+    super(errorMsg, HttpStatus.NOT_FOUND, ErrorNames.NotFoundError);
   }
 }
