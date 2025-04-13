@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { NextFunction, Request, Response } from 'express';
-import { ApiError } from '../common/errors';
+import { BaseError } from '../common/errors';
 
 class ErrorHandler {
   public static handleError(err: Error, req: Request, res: Response, next: NextFunction) {
-    if (err instanceof ApiError) {
+    if (err instanceof BaseError) {
       res.status(err.statusCode).send({
         error: err.statusCode,
         message: err.message,

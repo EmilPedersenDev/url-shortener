@@ -3,11 +3,11 @@ import { Request, Response, NextFunction } from 'express';
 import { ApiValidationError } from '../common/errors';
 
 export const createShortUrlValidator: ValidationChain[] = [
-  body('originalUrl').isString().trim().notEmpty().escape().withMessage('originalUrl is not a valid string.'),
+  body('originalUrl').isString().trim().notEmpty().withMessage('originalUrl is not a valid string.'),
 ];
 
 export const getOriginalUrlValidator: ValidationChain[] = [
-  param('hash').isString().trim().notEmpty().escape().withMessage('hash is not a valid string.'),
+  param('hash').isString().trim().notEmpty().withMessage('hash is not a valid string.'),
 ];
 
 export const validate = (req: Request, res: Response, next: NextFunction): void => {
