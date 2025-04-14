@@ -1,5 +1,5 @@
 import BaseModel from './base.model';
-import { OriginalUrlResponse, UrlData } from '../types/url.types';
+import { OriginalUrlResponse, Url, UrlData } from '../types/url.types';
 
 class UrlModel extends BaseModel {
   private readonly databaseTableName: string;
@@ -49,14 +49,14 @@ class UrlModel extends BaseModel {
     return this.executeSingleRowQuery<UrlData>(sqlQuery, sqlQueryParams);
   }
 
-  public async getOriginalUrlByHash(hash: string): Promise<OriginalUrlResponse> {
+  public async getOriginalUrlByHash(hash: string): Promise<Url> {
     const sqlQuery: string = `
-          SELECT original_url as "originalUrl" FROM ${this.databaseTableName} WHERE hash = :hash limit 1
+          SELECT hash, original_url as "originalUrl" FROM ${this.databaseTableName} WHERE hash = :hash limit 1
       `;
     const sqlQueryParams = {
       hash,
     };
-    return this.executeSingleRowQuery<OriginalUrlResponse>(sqlQuery, sqlQueryParams);
+    return this.executeSingleRowQuery<Url>(sqlQuery, sqlQueryParams);
   }
 }
 

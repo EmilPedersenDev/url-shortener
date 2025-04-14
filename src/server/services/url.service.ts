@@ -1,14 +1,17 @@
 import UrlModel from '../models/url.model';
 import UrlHashService from './url-hash.service';
-import { OriginalUrlResponse, UrlData, UrlResponse } from '../types/url.types';
+import { Url, UrlData, UrlResponse } from '../types/url.types';
 import { NotFoundError } from '../common/errors';
+import CacheService from './cache.service';
 
 class UrlService {
   private readonly urlModel: UrlModel;
   private readonly urlHashService: UrlHashService;
-  constructor(urlModel: UrlModel, urlHashService: UrlHashService) {
+  private readonly cacheService: CacheService;
+  constructor(urlModel: UrlModel, urlHashService: UrlHashService, cacheService: CacheService) {
     this.urlModel = urlModel;
     this.urlHashService = urlHashService;
+    this.cacheService = cacheService;
   }
 
   public async createShortUrl(originalUrl: string): Promise<UrlResponse> {
@@ -21,6 +24,7 @@ class UrlService {
     }
     const urlHash: string = await this.urlHashService.createUrlHash(originalUrl);
     const shortUrl: UrlData = await this.urlModel.createShortUrl(originalUrl, urlHash);
+    await this.cacheService.set(shortUrl.hash, shortUrl.original_url);
     return {
       hash: shortUrl.hash,
       originalUrl: shortUrl.original_url,
@@ -28,10 +32,15 @@ class UrlService {
   }
 
   public async getOriginalUrl(hash: string): Promise<string> {
-    const { originalUrl }: OriginalUrlResponse = await this.urlModel.getOriginalUrlByHash(hash);
-    if (!originalUrl) {
+    const cachedOriginalUrl: string | undefined | null = await this.cacheService.get(hash);
+    if (cachedOriginalUrl) {
+      return cachedOriginalUrl;
+    }
+    const { hash: savedHash, originalUrl }: Url = await this.urlModel.getOriginalUrlByHash(hash);
+    if (!originalUrl || !savedHash) {
       throw new NotFoundError('No original URL found for the given hash.');
     }
+    await this.cacheService.set(savedHash, originalUrl);
     return originalUrl;
   }
 }

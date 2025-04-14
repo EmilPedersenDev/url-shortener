@@ -9,6 +9,11 @@ export interface UrlData {
   expiration: string | null;
 }
 
+export interface Url {
+  hash: string;
+  originalUrl: string;
+}
+
 export interface SqlQueryResponse<T> {
   rowcount: number;
   rows: Array<T>;
