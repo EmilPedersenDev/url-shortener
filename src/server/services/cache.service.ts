@@ -1,10 +1,11 @@
 import Redis from 'ioredis/built/Redis';
-import redisClient from '../common/config/redis-client';
+import createRedisClient from '../common/config/redis-client';
+import { DB_INDEX } from '../types/reddis.types';
 
 class CacheService {
   private redisClient: Redis | undefined;
   constructor() {
-    this.redisClient = redisClient;
+    this.redisClient = createRedisClient(DB_INDEX.SHORT_URL_DB);
   }
 
   public async set(key: string, value: string): Promise<void> {

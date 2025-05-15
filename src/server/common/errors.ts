@@ -6,6 +6,8 @@ enum ErrorNames {
   ApiError = 'ApiError',
   ApiValidationError = 'ApiValidationError',
   NotFoundError = 'NotFoundError',
+  RabbitMQError = 'RabbitMQError',
+  RedisError = 'ReddisError',
 }
 
 export class BaseError extends Error {
@@ -39,5 +41,17 @@ export class ApiValidationError extends BaseError {
 export class NotFoundError extends BaseError {
   constructor(errorMsg: string = 'Not Found') {
     super(errorMsg, HttpStatus.NOT_FOUND, ErrorNames.NotFoundError);
+  }
+}
+
+export class RabbitMQError extends BaseError {
+  constructor(errorMsg: string = 'Not Found') {
+    super(errorMsg, HttpStatus.INTERNAL_SERVER_ERROR, ErrorNames.RabbitMQError);
+  }
+}
+
+export class RedisError extends BaseError {
+  constructor(errorMsg: string = 'Not Found') {
+    super(errorMsg, HttpStatus.INTERNAL_SERVER_ERROR, ErrorNames.RedisError);
   }
 }

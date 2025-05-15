@@ -6,6 +6,9 @@ import ErrorHandler from './middleware/error-handler';
 import path from 'node:path';
 import { rateLimit } from 'express-rate-limit';
 import { RATE_LIMIT_THRESHOLD } from './common/constants';
+import { connectDB } from './common/config/mongo-db-client';
+import RabbitMqService from './services/rabbit-mq.service';
+import { assertQueue, connectRabbitMQ } from './common/config/rabbit-mq-client';
 
 const app = express();
 const port = process.env.PORT;
@@ -41,6 +44,15 @@ app.use('/v1', router);
 app.use(ErrorHandler.handleError);
 process.on('uncaughtException', ErrorHandler.handleUncaughtError);
 
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+start().then(() => {
+  console.log('running...');
 });
+
+async function start(): Promise<void> {
+  await connectDB();
+  await connectRabbitMQ();
+  await assertQueue(RabbitMqService.RABBIT_QUEUE_NAME);
+  app.listen(port, () => {
+    console.log(`Server running at http://localhost:${port}`);
+  });
+}

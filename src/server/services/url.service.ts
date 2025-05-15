@@ -1,16 +1,16 @@
 import UrlModel from '../models/url.model';
-import UrlHashService from './url-hash.service';
+import UrlKeyService from './url-key.service';
 import { Url, UrlData, UrlResponse } from '../types/url.types';
 import { NotFoundError } from '../common/errors';
 import CacheService from './cache.service';
 
 class UrlService {
   private readonly urlModel: UrlModel;
-  private readonly urlHashService: UrlHashService;
+  private readonly urlKeyService: UrlKeyService;
   private readonly cacheService: CacheService;
-  constructor(urlModel: UrlModel, urlHashService: UrlHashService, cacheService: CacheService) {
+  constructor(urlModel: UrlModel, urlHashService: UrlKeyService, cacheService: CacheService) {
     this.urlModel = urlModel;
-    this.urlHashService = urlHashService;
+    this.urlKeyService = urlHashService;
     this.cacheService = cacheService;
   }
 
@@ -22,7 +22,7 @@ class UrlService {
         originalUrl: existingUrl.original_url,
       };
     }
-    const urlHash: string = await this.urlHashService.createUrlHash(originalUrl);
+    const urlHash: string = await this.urlKeyService.getUrlHash(originalUrl);
     const shortUrl: UrlData = await this.urlModel.createShortUrl(originalUrl, urlHash);
     await this.cacheService.set(shortUrl.hash, shortUrl.original_url);
     return {
