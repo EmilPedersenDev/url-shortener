@@ -30,7 +30,7 @@ jobs:
       DATABASE_NAME: url-shortener-test
       DATABASE_TABLE_NAME: url
       DATABASE_USER: postgres
-      DATABASE_PASSWORD: password
+      DATABASE_PASSWORD: 'password'
       DATABASE_HOST: localhost
       DATABASE_PORT: 5432
 

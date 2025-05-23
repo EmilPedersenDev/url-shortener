@@ -6,6 +6,7 @@ export function setupDatabaseForUrlTests() {
     // Truncate the events table before running the test to ensure fresh data
     try {
       console.log('Truncate the events table to ensure fresh data before running the tests');
+      console.log('name: ', process.env.DATABASE_NAME, 'table: ', process.env.DATABASE_TABLE_NAME, 'password: ', process.env.DATABASE_PASSWORD, 'dbuser: ', process.env.DATABASE_USER, 'db host: ', process.env.DATABASE_HOST, "db port: ", process.env.DATABASE_PORT);
       await knexClient.raw(`TRUNCATE TABLE ${process.env.DATABASE_TABLE_NAME}`);
       console.log('Truncated the events table successfully!');
       console.log('Seed data to the database');
