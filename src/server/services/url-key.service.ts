@@ -10,7 +10,7 @@ import { DB_INDEX } from '../types/reddis.types';
 class UrlKeyService {
   private urlModel: UrlModel;
   private hashRetries: number = HASH_RETRIES;
-  private redisClient: Redis;
+  private readonly redisClient: Redis | undefined;
   public static HASH_KEY: string = 'hashes';
   constructor(urlModel: UrlModel) {
     this.urlModel = urlModel;
@@ -42,6 +42,7 @@ class UrlKeyService {
   }
 
   private async getUrlHashFromCache(): Promise<string | null> {
+    if (!this.redisClient) return null;
     const availableHashesCount: number = await this.redisClient.scard(UrlKeyService.HASH_KEY);
     if (availableHashesCount < 100) {
       RabbitMqService.createHashes();

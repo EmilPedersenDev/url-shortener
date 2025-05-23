@@ -2,3 +2,5 @@ node_modules
 .idea
 dump.rdb
 .env
+.env.test
+dist

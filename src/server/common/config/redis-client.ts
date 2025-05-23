@@ -1,7 +1,8 @@
 import Redis from 'ioredis';
 import { RedisError } from '../errors';
 
-const createRedisClient = (dbIndex: number): Redis => {
+const createRedisClient = (dbIndex: number): Redis | undefined => {
+  if (process.env.NODE_ENV === 'test') return;
   if (dbIndex == null) {
     throw new RedisError('No db index was provided.');
   }

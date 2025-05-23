@@ -2,10 +2,8 @@ import BaseModel from './base.model';
 import { OriginalUrlResponse, Url, UrlData } from '../types/url.types';
 
 class UrlModel extends BaseModel {
-  private readonly databaseTableName: string;
   constructor() {
     super();
-    this.databaseTableName = 'url';
   }
 
   public async createShortUrl(originalUrl: string, hash: string): Promise<UrlData> {
