@@ -7,17 +7,7 @@ on:
     branches: [master]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Install dependencies
-        run: npm ci
-      - name: Build
-        run: npm run build
-
-
-  test:
+  build_and_test:
     runs-on: ubuntu-latest
 
     services:
@@ -55,6 +45,9 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Build
+        run: npm run build
 
       - name: Run tests
         run: npm run test

@@ -15,4 +15,10 @@ export function setupDatabaseForUrlTests() {
       throw err;
     }
   });
+
+  after(async () => {
+    console.log('Destroying knex connection pool...');
+    await knexClient.destroy();
+    console.log('Destroyed');
+  });
 }

@@ -55,10 +55,11 @@ async function start(): Promise<void> {
     await connectDB();
     await connectRabbitMQ();
     await assertQueue(RabbitMqService.RABBIT_QUEUE_NAME);
+
+    app.listen(port, () => {
+      console.log(`Server running at http://localhost:${port}`);
+    });
   }
-  app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
-  });
 }
 
 export { app };
