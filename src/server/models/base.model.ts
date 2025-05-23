@@ -4,8 +4,10 @@ import { NotFoundError } from '../common/errors';
 
 class BaseModel {
   protected readonly databaseName: string;
+  protected readonly databaseTableName: string;
   constructor() {
     this.databaseName = process.env.DATABASE_NAME as string;
+    this.databaseTableName = process.env.DATABASE_TABLE_NAME as string;
   }
 
   protected async executeMultipleRowQuery<T>(sqlQuery: string, sqlParams: object): Promise<Array<T>> {

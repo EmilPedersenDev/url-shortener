@@ -36,7 +36,7 @@ class UrlService {
     if (cachedOriginalUrl) {
       return cachedOriginalUrl;
     }
-    const { hash: savedHash, originalUrl }: Url = await this.urlModel.getOriginalUrlByHash(hash);
+    const { hash: savedHash, originalUrl }: Url = (await this.urlModel.getOriginalUrlByHash(hash)) ?? {};
     if (!originalUrl || !savedHash) {
       throw new NotFoundError('No original URL found for the given hash.');
     }

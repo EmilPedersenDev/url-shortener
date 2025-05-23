@@ -1,4 +1,4 @@
-import type { Knex } from "knex";
+import type { Knex } from 'knex';
 
 // Update with your config settings.
 
@@ -6,11 +6,11 @@ const config: { [key: string]: Knex.Config } = {
   development: {
     client: 'pg',
     connection: {
-      host: 'localhost',
-      user: 'postgres',
-      password: '',
-      database: 'url-shortener',
-      port: 5432,
+      host: process.env.DATABASE_HOST,
+      user: process.env.DATABASE_USER,
+      password: process.env.DATABASE_PASSWORD,
+      database: process.env.DATABASE_NAME,
+      port: Number(process.env.DATABASE_PORT),
     },
   },
 
@@ -45,7 +45,6 @@ const config: { [key: string]: Knex.Config } = {
   //     tableName: "knex_migrations"
   //   }
   // }
-
 };
 
 export default config;

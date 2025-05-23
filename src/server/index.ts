@@ -1,7 +1,9 @@
+import dotenv from 'dotenv';
+const env = process.env.NODE_ENV;
+dotenv.config({ path: env ? `.env.${env}` : '.env' });
 import express from 'express';
 import cors from 'cors';
 import urlRouter from './routes/url.route';
-import 'dotenv/config';
 import ErrorHandler from './middleware/error-handler';
 import path from 'node:path';
 import { rateLimit } from 'express-rate-limit';
@@ -49,10 +51,14 @@ start().then(() => {
 });
 
 async function start(): Promise<void> {
-  await connectDB();
-  await connectRabbitMQ();
-  await assertQueue(RabbitMqService.RABBIT_QUEUE_NAME);
+  if (process.env.NODE_ENV !== 'test') {
+    await connectDB();
+    await connectRabbitMQ();
+    await assertQueue(RabbitMqService.RABBIT_QUEUE_NAME);
+  }
   app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
   });
 }
+
+export { app };
