@@ -2,8 +2,6 @@ import type { Knex } from 'knex';
 
 // Update with your config settings.
 
-console.log('password in knexfile', String(process.env.DATABASE_PASSWORD), process.env.DATABASE_PASSWORD);
-
 const config: { [key: string]: Knex.Config } = {
   development: {
     client: 'pg',
