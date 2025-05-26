@@ -10,7 +10,17 @@ const config: { [key: string]: Knex.Config } = {
     connection: {
       host: process.env.DATABASE_HOST,
       user: process.env.DATABASE_USER,
-      password: '',
+      password: process.env.DATABASE_PASSWORD,
+      database: process.env.DATABASE_NAME,
+      port: Number(process.env.DATABASE_PORT),
+    },
+  },
+  test: {
+    client: 'pg',
+    connection: {
+      host: process.env.DATABASE_HOST,
+      user: process.env.DATABASE_PASSWORD,
+      password: process.env.DATABASE_USER,
       database: process.env.DATABASE_NAME,
       port: Number(process.env.DATABASE_PORT),
     },

@@ -13,7 +13,7 @@ export DATABASE_USER="$DATABASE_USER"
 export DATABASE_HOST="$DATABASE_HOST"
 export DATABASE_PORT="$DATABASE_PORT"
 
-npx knex migrate:latest --env development --knexfile ./knexfile.ts
+npx knex migrate:latest --env test --knexfile ./knexfile.ts
 
 mocha -r ts-node/register test/**/*.test.ts
 1

@@ -1,5 +1,5 @@
-import { knexClient } from '../../src/server/common/config/database-client';
 import { urlSeedData } from '../seeds';
+import { knexClient } from '../../src/server/common/config/database-client';
 
 export function setupDatabaseForUrlTests() {
   before(async () => {
