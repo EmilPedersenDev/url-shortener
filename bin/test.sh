@@ -16,4 +16,3 @@ export DATABASE_PORT="$DATABASE_PORT"
 npx knex migrate:latest --env test --knexfile ./knexfile.ts
 
 mocha -r ts-node/register test/**/*.test.ts
-1
