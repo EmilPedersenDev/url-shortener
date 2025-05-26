@@ -15,7 +15,6 @@ jobs:
         image: postgres:15
         env:
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: password
           POSTGRES_DB: url-shortener-test
         ports:
           - 5432:5432
@@ -30,7 +29,6 @@ jobs:
       DATABASE_NAME: url-shortener-test
       DATABASE_TABLE_NAME: url
       DATABASE_USER: postgres
-      DATABASE_PASSWORD: password
       DATABASE_HOST: localhost
       DATABASE_PORT: 5432
 
