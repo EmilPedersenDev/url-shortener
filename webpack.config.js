@@ -7,7 +7,7 @@ module.exports = {
   },
   output: {
     filename: 'bundle.js', // Output bundled JS file
-    path: path.resolve(__dirname, 'dist'), // Output directory
+    path: path.resolve(__dirname, 'dist/client'), // Output directory
   },
   module: {
     rules: [
