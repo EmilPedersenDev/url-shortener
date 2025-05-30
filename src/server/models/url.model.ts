@@ -10,12 +10,10 @@ class UrlModel extends BaseModel {
     const sqlQuery: string = `
       INSERT INTO ${this.databaseTableName}(
         hash,
-        original_url,
-        expiration
+        original_url
       ) VALUES(
         :hash,
-        :originalUrl,
-        :expiration
+        :originalUrl
       ) RETURNING *`;
     const sqlQueryParams = {
       hash,

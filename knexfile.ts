@@ -1,3 +1,6 @@
+import dotenv from 'dotenv';
+const env = process.env.NODE_ENV;
+dotenv.config({ path: env ? `.env.${env}` : '.env' });
 import type { Knex } from 'knex';
 
 // Update with your config settings.
@@ -12,6 +15,9 @@ const config: { [key: string]: Knex.Config } = {
       database: process.env.DATABASE_NAME,
       port: Number(process.env.DATABASE_PORT),
     },
+    migrations: {
+      directory: './migrations',
+    },
   },
   test: {
     client: 'pg',
@@ -21,6 +27,9 @@ const config: { [key: string]: Knex.Config } = {
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
       port: Number(process.env.DATABASE_PORT),
+    },
+    migrations: {
+      directory: './migrations',
     },
   },
 
