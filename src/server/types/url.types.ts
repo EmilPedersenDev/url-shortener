@@ -6,7 +6,6 @@ export interface UrlData {
   id: string;
   hash: string;
   original_url: string;
-  expiration: string | null;
 }
 
 export interface Url {
