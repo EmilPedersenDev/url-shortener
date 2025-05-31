@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\"",
     "dev:client": "webpack-dev-server --open",
     "dev:server": "nodemon --exec node --inspect -r ts-node/register src/server/index.ts",
     "build": "bin/build.sh",
@@ -43,6 +44,7 @@
     "@typescript-eslint/eslint-plugin": "^8.26.0",
     "@typescript-eslint/parser": "^8.26.0",
     "chai": "^5.2.0",
+    "concurrently": "^9.1.2",
     "css-loader": "^7.1.2",
     "eslint": "^9.21.0",
     "eslint-config-prettier": "^10.0.2",
